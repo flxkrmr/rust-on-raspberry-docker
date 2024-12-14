@@ -2,6 +2,7 @@ FROM debian:bookworm@sha256:e97ee92bf1e11a2de654e9f3da827d8dce32b54e0490ac83bfc6
 
 ARG PI_TOOLS_GIT_REF=master
 ARG RUST_VERSION=stable
+ARG USER=cross
 
 # update system
 RUN apt-get update && \
@@ -13,9 +14,9 @@ RUN apt-get update && \
 COPY build /tmp/build
 RUN sh /tmp/build/user-setup.sh
 
-USER cross
+USER $USER
 
-ENV HOME=/home/cross
+ENV HOME=/home/$USER
 ENV URL_GIT_PI_TOOLS=https://github.com/raspberrypi/tools.git \
     TOOLCHAIN_64=$HOME/pi-tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin \
     TOOLCHAIN_32=$HOME/pi-tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin
